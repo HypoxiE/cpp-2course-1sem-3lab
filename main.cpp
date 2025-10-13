@@ -1,8 +1,8 @@
 #include <iostream>
+#include "hash/hash.h"
 
 using namespace std;
 
 int main() {
-	cout << "qwerty";
 	return 0;
 }
