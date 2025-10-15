@@ -8,7 +8,7 @@ int main() {
 	int arr[] = {1, 2, 3, 4};
     HVector<int> vec2(arr, 4);
 
-	cout << vec2;
+	cout << vec2 << endl;
 
 	HVector<int> vector;
 	vector.append(10);
@@ -18,8 +18,12 @@ int main() {
 	vector.append(40);
 	vector.append(50);
 
-	cout << vector;
+	cout << vector << endl;
 
+	cout << vector[2] << endl;
+
+	cout << vector.len();
+	
 	//SimpleAllocator<int> alloc;
 
 	//int* p = alloc.allconstruct(3);
