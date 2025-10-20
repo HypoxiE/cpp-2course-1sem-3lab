@@ -20,10 +20,10 @@ public:
 		p->~T();
 	}
 
-	[[nodiscard]] T* allconstruct(size_t n) {
-		return new T [n];
-	}
-	void dealdestruct(T* p, size_t) {
-		delete(p);
-	}
+	//[[nodiscard]] T* allconstruct(size_t n) {
+	//	return new T [n];
+	//}
+	//void dealdestruct(T* p, size_t) {
+	//	delete(p);
+	//}
 };

@@ -6,9 +6,6 @@ class HashTable {
 private:
 	HVector<TKey> keys;
 	HVector<TVal> values;
-
-	size_t length;
-	size_t capacity;
 public:
 	HashTable() : keys(nullptr), values(nullptr), length(0), capacity(0) {}
 	~HashTable() {
@@ -19,6 +16,7 @@ public:
 
 		}
 	}
+
 	TVal& operator[] (const TKey& key) {
 		index = -1;
 		for (int i = 0; i < length; i++){

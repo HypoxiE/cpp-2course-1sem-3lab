@@ -5,36 +5,20 @@
 using namespace std;
 
 int main() {
-	int arr[] = {1, 2, 3, 4};
-    HVector<int> vec2(arr, 4);
-	cout << vec2 << endl;
-	HVector<int> vector;
-	vector.append(10);
-	vector.append(20);
-	vector.append(20);
-	vector.append(30);
-	vector.append(40);
-	vector.append(50);
-	cout << vector << endl;
-	cout << vector.pop(3) << endl;
-	vector.insert(30, 5);
-	vector.insert(30, 5);
-	vector.insert(30, 5);
-	cout << vector << endl;
-	cout << vector[2] << endl;
-	cout << vector.len();
-	
-	//SimpleAllocator<int> alloc;
+	//HashTable<int, >
 
-	//int* p = alloc.allconstruct(3);
-	//p[0] = 10;
-	//p[1] = 20;
-	//p[2] = 30;
+	int arr[] = {1,2,3,4};
+	HVector vec2(arr, 4);
 
-	//for (int i = 0; i < 3; ++i)
-	//	std::cout << p[i] << " ";
+	cout << vec2;
 
-	//alloc.dealdestruct(p, 3);
+	HVector<HVector<int>> vec;
+
+	cout << vec2;
+
+	vec.append(vec2);
+
+	cout << vec;
 
 	return 0;
 }
