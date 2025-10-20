@@ -39,6 +39,12 @@ public:
 		length = capacity = 0;
 	}
 
+	HVector(std::initializer_list<T> init) {
+		for (const auto& elem : init) {
+			append(elem);
+		}
+	}
+
 	void append(T elem) {
 		if (length >= capacity) {
 			size_t new_cap = capacity ? capacity * 2 : 1;
