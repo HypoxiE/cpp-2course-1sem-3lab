@@ -115,9 +115,17 @@ public:
 	}
 
 	T& operator[](size_t index) {
+		if (index > length) {
+			cout << endl << "Вы чувствуете, что что-то пошло не так..." << endl;
+		}
+
 		return vec[index];
 	}
 	const T& operator[](size_t index) const {
+		if (index > length) {
+			cout << endl << "Вы чувствуете, что что-то пошло не так..." << endl;
+		}
+
 		return vec[index];
 	}
 
@@ -168,6 +176,12 @@ public:
 template <typename Tlloc = SimpleAllocator<char>>
 class String : public HVector<char, Tlloc> {
 public:
+	String(const char* s) {
+		for (size_t i = 0; s[i+1] != '\0'; i++) {
+			this->append(s[i]);
+		}
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, const String& p) {
 		if (p.vec == nullptr) {
 			os << "";

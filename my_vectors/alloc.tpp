@@ -12,9 +12,13 @@ public:
 		::operator delete(p);
 	}
 
+	template <typename ForwType>
+	ForwType&& my_forward(typename std::remove_reference<ForwType>::type& t) noexcept {
+		return static_cast<ForwType&&>(t);
+	}
 	template <typename... Args>
 	void construct(T* p, Args&&... args) {
-		::new ((void*)p) T(std::forward<Args>(args)...);
+		::new ((void*)p) T(my_forward<Args>(args)...);
 	}
 	void destroy(T* p) {
 		p->~T();
