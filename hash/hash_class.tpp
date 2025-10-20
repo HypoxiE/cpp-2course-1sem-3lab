@@ -1,3 +1,5 @@
+#include "../my_vectors/vectors.h"
+
 
 template <typename TKey, typename TVal>
 class HashTable {

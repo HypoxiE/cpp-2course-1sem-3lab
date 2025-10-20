@@ -5,17 +5,25 @@ public:
 
 	SimpleAllocator() = default;
 
-	[[nodiscard]] T* allocate(unsigned int n) {
+	[[nodiscard]] T* allocate(size_t n) {
 		return static_cast<T*>(::operator new(sizeof(T) * n));
 	}
-	void deallocate(T* p, unsigned int) {
+	void deallocate(T* p, size_t) {
 		::operator delete(p);
 	}
 
-	[[nodiscard]] T* allconstruct(unsigned int n) {
+	template <typename... Args>
+	void construct(T* p, Args&&... args) {
+		::new ((void*)p) T(std::forward<Args>(args)...);
+	}
+	void destroy(T* p) {
+		p->~T();
+	}
+
+	[[nodiscard]] T* allconstruct(size_t n) {
 		return new T [n];
 	}
-	void dealdestruct(T* p, unsigned int) {
+	void dealdestruct(T* p, size_t) {
 		delete(p);
 	}
 };

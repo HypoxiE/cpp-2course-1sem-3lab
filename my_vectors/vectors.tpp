@@ -24,20 +24,18 @@ public:
 	void append(T elem) {
 		if (lenght >= capacity) {
 			size_t new_cap = capacity ? capacity * 2 : 1;
-			T* new_vec = allocator.allconstruct(new_cap);
+			T* new_vec = allocator.allocate(new_cap);
 			for (size_t i = 0; i < lenght; i++) {
-				new_vec[i] = vec[i];
+				std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[i], vec[i]);
 			}
-
-			new_vec[lenght++] = elem;
+			std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[lenght++], elem);
 
 			allocator.dealdestruct(vec, capacity);
 			capacity = new_cap;
 
 			vec = new_vec;
 		} else {
-			vec[lenght] = elem;
-			lenght++;
+			std::allocator_traits<decltype(allocator)>::construct(allocator, &vec[lenght++], elem);
 		}
 	}
 
@@ -65,6 +63,28 @@ public:
     const T& operator[](size_t index) const {
         return vec[index];
     }
+
+	T pop(size_t index) {
+
+		T elem = vec[index];
+
+		size_t new_cap = lenght <= capacity / 2 ? capacity / 2 : capacity;
+		T* new_vec = allocator.allocate(new_cap);
+		
+		for (size_t i = 0; i < lenght; i++) {
+			if (i != index){
+				std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[i - (i>index)], vec[i]);
+			}
+		}
+		lenght--;
+
+		allocator.dealdestruct(vec, capacity);
+		capacity = new_cap;
+
+		vec = new_vec;
+
+		return elem;
+	}
 
 	//HVector operator+(const HVector& other) const {
 	//    size_t new_cap = capacity ? capacity : 1;

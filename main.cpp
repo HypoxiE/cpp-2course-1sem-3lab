@@ -7,9 +7,7 @@ using namespace std;
 int main() {
 	int arr[] = {1, 2, 3, 4};
     HVector<int> vec2(arr, 4);
-
 	cout << vec2 << endl;
-
 	HVector<int> vector;
 	vector.append(10);
 	vector.append(20);
@@ -17,11 +15,10 @@ int main() {
 	vector.append(30);
 	vector.append(40);
 	vector.append(50);
-
 	cout << vector << endl;
-
+	cout << vector.pop(3) << endl;
+	cout << vector << endl;
 	cout << vector[2] << endl;
-
 	cout << vector.len();
 	
 	//SimpleAllocator<int> alloc;
