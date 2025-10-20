@@ -19,7 +19,7 @@ public:
 	}
 
 	HVector(const HVector& v) {
-		T* vec = allocator.allocate(v.capacity);
+		vec = allocator.allocate(v.capacity);
 		for (int i = 0; i < v.length; i++) {
 			std::allocator_traits<decltype(allocator)>::construct(allocator, &vec[i], v.vec[i]);
 		}
@@ -48,7 +48,7 @@ public:
 				std::allocator_traits<decltype(allocator)>::destroy(allocator, &vec[i]);
 			}
 
-			std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[length+1], elem);
+			std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[length], elem);
 
 			allocator.deallocate(vec, capacity);
 
@@ -145,16 +145,31 @@ public:
 
 		return elem;
 	}
+	void merge(HVector other) {
+		for (int i = 0; i < other.len(); i++) {
+			append(other[i]);
+		}
+	}
+	HVector operator+(HVector other) {
+		HVector new_vec = *this;
+		for (int i = 0; i < other.len(); i++) {
+			new_vec.append(other[i]);
+		}
+		return new_vec;
+	}
+};
 
-	//HVector operator+(const HVector& other) const {
-	//    size_t new_cap = capacity ? capacity : 1;
-	//	while (new_cap < length + other.length) {
-	//		new_cap = new_cap * 2;
-	//	}
-	//	T* new_vec = allocator.allconstruct(new_cap);
-	//	for (size_t i = 0; i < length; i++) {
-	//		new_vec[i] = vec[i];
-	//	}
-	//    return result;
-	//}
+template <typename Tlloc = SimpleAllocator<char>>
+class String : public HVector<char, Tlloc> {
+public:
+	friend std::ostream& operator<<(std::ostream& os, const String& p) {
+		if (p.vec == nullptr) {
+			os << "";
+		} else {
+			for (size_t i = 0; i < p.length; i++) {
+				os << p.vec[i];
+			}
+		}
+		return os;
+	}
 };
