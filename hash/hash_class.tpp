@@ -4,10 +4,8 @@
 template <typename TKey, typename TVal>
 class HashTable {
 private:
-	std::allocator<TKey> key_alloc;
-	TKey *keys;
-	std::allocator<TVal> val_alloc;
-	TVal *values;
+	HVector<TKey> keys;
+	HVector<TVal> values;
 
 	size_t length;
 	size_t capacity;

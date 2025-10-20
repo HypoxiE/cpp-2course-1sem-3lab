@@ -39,6 +39,33 @@ public:
 		}
 	}
 
+	void insert(T elem, size_t index) {
+
+		if (index > lenght) {
+			cout << endl << "Вы чувствуете, что что-то пошло не так..." << endl;
+		}
+		else if (index == lenght) {
+			append(elem);
+			return;
+		}
+		size_t new_cap = !capacity ? 1 : capacity > lenght ? capacity * 2 : capacity;
+
+		T* new_vec = allocator.allocate(new_cap);
+		for (size_t i = 0; i < lenght; i++) {
+			if (i == index){
+				std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[index], elem);
+			}
+			std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[i + (i>=index)], vec[i]);
+		}
+
+		lenght++;
+
+		allocator.dealdestruct(vec, capacity);
+		capacity = new_cap;
+
+		vec = new_vec;
+	}
+
 	size_t len() {
 		return lenght;
 	}
@@ -66,11 +93,15 @@ public:
 
 	T pop(size_t index) {
 
+		if (index >= lenght) {
+			cout << endl << "Вы чувствуете, что что-то пошло не так..." << endl;
+		}
+
 		T elem = vec[index];
 
 		size_t new_cap = lenght <= capacity / 2 ? capacity / 2 : capacity;
 		T* new_vec = allocator.allocate(new_cap);
-		
+
 		for (size_t i = 0; i < lenght; i++) {
 			if (i != index){
 				std::allocator_traits<decltype(allocator)>::construct(allocator, &new_vec[i - (i>index)], vec[i]);

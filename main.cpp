@@ -17,6 +17,9 @@ int main() {
 	vector.append(50);
 	cout << vector << endl;
 	cout << vector.pop(3) << endl;
+	vector.insert(30, 5);
+	vector.insert(30, 5);
+	vector.insert(30, 5);
 	cout << vector << endl;
 	cout << vector[2] << endl;
 	cout << vector.len();
