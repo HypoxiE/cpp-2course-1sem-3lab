@@ -36,6 +36,5 @@ int GetHash3(T vec, size_t hash_max) {
 	for (int i = 0; i < vec.len(); i++) {
 		hash = hash + vec[i] * i;
 	}
-	srand(hash);
-	return NORMALIZE(rand(), hash_max);
+	return NORMALIZE(hash*2654435761, hash_max);
 }

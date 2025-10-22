@@ -117,6 +117,14 @@ public:
 		return os;
 	}
 
+	std::ostream& to_csv(std::ostream& os) {
+		for (size_t i = 0; i < length; i++) {
+			os << vec[i];
+			if (i != length - 1) os << ";";
+		}
+		return os;
+	}
+
 	T& operator[](size_t index) {
 		if (index > length) {
 			cout << endl << "Вы чувствуете, что что-то пошло не так..." << endl;
