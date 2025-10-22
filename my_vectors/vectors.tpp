@@ -177,7 +177,7 @@ template <typename Tlloc = SimpleAllocator<char>>
 class String : public HVector<char, Tlloc> {
 public:
 	String(const char* s) {
-		for (size_t i = 0; s[i+1] != '\0'; i++) {
+		for (size_t i = 0; s[i] != '\0'; i++) {
 			this->append(s[i]);
 		}
 	}

@@ -27,5 +27,7 @@ int main() {
 
 	String str = "ads";
 
+	cout << str << endl;
+
 	return 0;
 }
