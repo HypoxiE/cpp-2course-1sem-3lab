@@ -1,54 +1,38 @@
 #include "../my_vectors/vectors.h"
 
 
-template <typename TKey, typename TVal>
+template <typename TVal>
 class HashTable {
-private:
-	HVector<TKey> keys;
-	HVector<TVal> values;
+protected:
+	HVector<HVector<TVal>> values;
+	size_t collision_counter = 0; 
 public:
-	HashTable() : keys(nullptr), values(nullptr), length(0), capacity(0) {}
-	~HashTable() {
-		if (capacity > 0) {
-			
+	HashTable(size_t hash_size) {
+		for (size_t i = 0; i < hash_size; i++) {
+			values.append(HVector<TVal>());
 		}
-		if (length > 0) {
+	};
 
+	bool add_hash(size_t hash, TVal key, bool maybe_repeated = false) {
+		if (hash < 0) {
+			throw "add_hash: hash<0";
+		} else if (hash >= values.len()) {
+			throw "add_hash: hash>max";
 		}
-	}
 
-	TVal& operator[] (const TKey& key) {
-		index = -1;
-		for (int i = 0; i < length; i++){
-			if (keys[i] == key) {
-				return values[i];
-			}
-		}
-		if (index == -1) {
-			if (length >= capacity) {
-				size_t new_capacity = capacity == 0 ? 1 : capacity * 2;
-				TKey *new_keys = key_alloc.allocate(new_capacity);
-				TVal *new_values = val_alloc.allocate(new_capacity);
-
-				for (int i = 0; i < length; i++) {
-					std::allocator_traits<decltype(key_alloc)>::construct(key_alloc, &new_keys[i], keys[i]);
-					std::allocator_traits<decltype(key_alloc)>::destroy(key_alloc, &keys[i]);
-					std::allocator_traits<decltype(val_alloc)>::construct(val_alloc, &new_values[i], values[i]);
-					std::allocator_traits<decltype(val_alloc)>::destroy(val_alloc, &values[i]);
+		if (values[hash].len() != 0) {
+			if (maybe_repeated){
+				for (int i = 0; i < values[hash].len(); i++) {
+					if (values[hash][i] == key) {
+						return false;
+					}
 				}
-
-				std::allocator_traits<decltype(key_alloc)>::construct(key_alloc, &new_keys[length], key);
-
-				if (keys) alloc.deallocate(keys, capacity);
-				if (values) alloc.deallocate(values, capacity);
-				keys = new_keys;
-				values = new_values;
-				length++;
-			} else {
-				length++;
-				keys[length] = key;
 			}
-			return values[length-1]
+			collision_counter++;
 		}
+		values[hash].append(key);
+		return true;
 	}
+
+	size_t get_collision() { return collision_counter; }
 };

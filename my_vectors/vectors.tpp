@@ -99,6 +99,9 @@ public:
 	size_t len() {
 		return length;
 	}
+	size_t len() const {
+		return length;
+	}
 
 	friend std::ostream& operator<<(std::ostream& os, const HVector& p) {
 		if (p.vec == nullptr) {
@@ -171,24 +174,55 @@ public:
 		}
 		return new_vec;
 	}
+	HVector operator+(std::initializer_list<T> init) {
+		HVector new_vec = *this;
+		for (int i = 0; i < init.size(); i++) {
+			new_vec.append(init[i]);
+		}
+		return new_vec;
+	}
+	HVector& operator=(const HVector& other) {
+		for (int i = 0; i < other.len(); i++) {
+			append(other[i]);
+		}
+		return *this;
+	}
+	bool operator==(const HVector& other) const {
+		if (length != other.length)
+			return false;
+		for (int i = 0; i < length; i++) {
+			if (vec[i] != other[i])
+				return false;
+		}
+		return true;
+	}
 };
 
 template <typename Tlloc = SimpleAllocator<char>>
 class String : public HVector<char, Tlloc> {
 public:
+	String() : HVector<char, Tlloc>() {}
+	String(const HVector<char, Tlloc>& other) : HVector<char, Tlloc>(other) {}
+
+
 	String(const char* s) {
 		for (size_t i = 0; s[i] != '\0'; i++) {
 			this->append(s[i]);
 		}
 	}
 
+	using HVector<char, Tlloc>::operator=;
+	using HVector<char, Tlloc>::operator+;
+
 	friend std::ostream& operator<<(std::ostream& os, const String& p) {
 		if (p.vec == nullptr) {
-			os << "";
+			os << "\"\"";
 		} else {
+			os << "\"";
 			for (size_t i = 0; i < p.length; i++) {
 				os << p.vec[i];
 			}
+			os << "\"";
 		}
 		return os;
 	}
