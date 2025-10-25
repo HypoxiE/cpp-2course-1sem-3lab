@@ -22,7 +22,7 @@ int GetHash1(T vec, size_t hash_max) {
 
 template <AllowedTypes T>
 int GetHash2(T vec, size_t hash_max) {
-	u_int hash = 5381;
+	uint32_t hash = 5381;
 	
 	for (int i = 0; i < vec.len(); i++) {
 		hash = ((hash << 5) + hash) + vec[i] * i;
@@ -32,7 +32,7 @@ int GetHash2(T vec, size_t hash_max) {
 
 template <AllowedTypes T>
 int GetHash3(T vec, size_t hash_max) {
-	u_int64_t hash = 0;
+	uint64_t hash = 0;
 	for (int i = 0; i < vec.len(); i++) {
 		hash = hash + vec[i] * i;
 	}
